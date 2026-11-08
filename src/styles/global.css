@@ -1,1 +1,84 @@
 @import "tailwindcss";
+
+/*
+  Tokens de diseño de Tres Cafés (ver .notas-claude/guia-estilo.md).
+  Cada variable del bloque @theme crea clases de Tailwind:
+    --color-X    → bg-X, text-X, border-X...
+    --text-X     → text-X (tamaño, y opcionalmente interlineado y tracking)
+    --tracking-X → tracking-X
+    --radius-X   → rounded-X
+*/
+@theme {
+  /* Paleta cerrada: borramos la de Tailwind (incluidos white y black)
+     para que solo existan los 5 colores de la marca. */
+  --color-*: initial;
+  --color-ink: #1f2a1d;   /* texto, fondos oscuros, botón principal */
+  --color-paper: #d8d2c3; /* fondo principal, texto sobre oscuro */
+  --color-olive: #556b2f; /* acento; como texto SOLO grande, y nunca sobre ink */
+  --color-sage: #8a9a5b;  /* líneas sobre claro; como texto SOLO sobre ink */
+  --color-brass: #b08d57; /* detalles finos; como texto SOLO sobre ink */
+
+  /* Escala tipográfica única: borramos la de Tailwind (text-lg, text-4xl...).
+     Valores en móvil; los que crecen en escritorio se ajustan más abajo. */
+  --text-*: initial;
+  --text-label: 12px;
+  --text-label--letter-spacing: 0.2em;
+  --text-label--font-weight: 600;
+  --text-sm: 16px;
+  --text-body: 17px;
+  --text-body--line-height: 1.6;
+  --text-lead: 18px;
+  --text-lead--line-height: 1.5;
+  --text-h4: 24px;
+  --text-h4--line-height: 1.2;
+  --text-h3: 28px;
+  --text-h3--line-height: 1.15;
+  --text-xl: 32px;
+  --text-xl--line-height: 1.1;
+  --text-h2: clamp(40px, 5vw, 72px);
+  --text-h2--line-height: 1.02;
+  --text-h2--letter-spacing: -0.015em;
+  --text-display: clamp(52px, 7vw, 104px);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.02em;
+
+  --tracking-label: 0.2em;
+  --radius-organic: 58% 42% 46% 54% / 42% 50% 50% 58%;
+}
+
+/* "inline" porque estas variables las genera Astro (astro.config.mjs) */
+@theme inline {
+  --font-serif: var(--font-gloock);
+  --font-sans: var(--font-hanken);
+}
+
+/* Escritorio (> 720 px): los tamaños que la guía da más grandes */
+@media (width > 720px) {
+  :root {
+    --text-body: 18px;
+    --text-lead: 20px;
+    --text-h3: 32px;
+    --text-xl: 40px;
+  }
+}
+
+@layer base {
+  /* Nunca scroll horizontal */
+  html {
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Foco de teclado visible. Por defecto en ink (sobre claro).
+     Un bloque oscuro solo tiene que poner --focus-ring: var(--color-paper). */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring, var(--color-ink));
+    outline-offset: 3px;
+  }
+}
