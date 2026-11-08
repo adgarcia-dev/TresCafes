@@ -1,23 +1,42 @@
 ---
 import { Font } from 'astro:assets';
+import Nav from '../components/Nav.astro';
 import '../styles/global.css';
+import type { Idioma } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
 
 interface Props {
+  lang: Idioma;
   title?: string;
 }
 
-const { title = 'Tres Cafés' } = Astro.props;
+const { lang, title } = Astro.props;
+const t = useTranslations(lang);
+const nombre = t('sitio.nombre');
 ---
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
+    <title>{title ? `${title} · ${nombre}` : nombre}</title>
+    <meta name="description" content={t('sitio.descripcion')} />
     <Font cssVariable="--font-gloock" preload />
     <Font cssVariable="--font-hanken" preload />
   </head>
   <body class="bg-paper text-ink font-sans text-body antialiased">
-    <slot />
+    <a
+      href="#contenido"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-60
+             focus:rounded-full focus:bg-ink focus:px-6 focus:py-3 focus:text-paper"
+    >
+      {t('salto.contenido')}
+    </a>
+
+    <Nav lang={lang} />
+
+    <main id="contenido" class="pt-28">
+      <slot />
+    </main>
   </body>
 </html>

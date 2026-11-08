@@ -1,0 +1,44 @@
+---
+import { idiomas, type Idioma } from '../i18n/ui';
+import { rutaLocal, rutaSinIdioma, useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Idioma;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const ruta = rutaSinIdioma(Astro.url.pathname);
+---
+
+<nav aria-label={t('idioma.etiqueta')}>
+  <ul class="flex gap-1">
+    {(Object.entries(idiomas) as [Idioma, string][]).map(([codigo, nombre]) => (
+      <li>
+        <a
+          href={rutaLocal(codigo, ruta)}
+          data-idioma={codigo}
+          lang={codigo}
+          hreflang={codigo}
+          aria-current={codigo === lang ? 'true' : undefined}
+          class="inline-flex min-h-11 min-w-11 items-center justify-center px-2 text-label uppercase
+                 underline-offset-8 decoration-brass hover:underline aria-current:underline"
+        >
+          <!-- Se muestra "ES/GL/EN"; el nombre completo queda para lectores de pantalla -->
+          <span aria-hidden="true">{codigo}</span>
+          <span class="sr-only">{nombre}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('a[data-idioma]').forEach((enlace) => {
+    enlace.addEventListener('click', () => {
+      document.cookie = `nf_lang=${enlace.dataset.idioma}; path=/; max-age=31536000; SameSite=Lax`;
+    });
+  });
+</script>

@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getIdioma, rutasPorIdioma, useTranslations } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return rutasPorIdioma();
+}
+
+const lang = getIdioma(Astro.params.lang);
+const t = useTranslations(lang);
+---
+<BaseLayout lang={lang} title={t('nav.espacio')}>
+</BaseLayout>

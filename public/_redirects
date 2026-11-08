@@ -1,0 +1,20 @@
+# Redirecciones de Netlify según el idioma del navegador (cabecera Accept-Language).
+#
+# - Solo se aplican a las URLs en español (sin prefijo). Gallego e inglés no se tocan.
+# - Si el navegador está en español (o en otro idioma), no hay redirección: español por defecto.
+# - "302!": temporal (no la memorizan buscadores) y forzada (el index.html existe).
+# - La cookie nf_lang (la guarda SelectorIdioma al elegir idioma) tiene prioridad
+#   sobre el idioma del navegador, así se respeta la elección manual.
+# - Solo funciona en Netlify; con `astro dev` no se aplica.
+# - Al añadir una página nueva, añade aquí sus dos líneas.
+
+/            /gl            302!  Language=gl
+/            /en            302!  Language=en
+/carta       /gl/carta      302!  Language=gl
+/carta       /en/carta      302!  Language=en
+/espacio     /gl/espacio    302!  Language=gl
+/espacio     /en/espacio    302!  Language=en
+/nosotros    /gl/nosotros   302!  Language=gl
+/nosotros    /en/nosotros   302!  Language=en
+/visitanos   /gl/visitanos  302!  Language=gl
+/visitanos   /en/visitanos  302!  Language=en

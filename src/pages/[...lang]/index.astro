@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getIdioma, rutasPorIdioma, useTranslations } from '../../i18n/utils';
+
+// [...lang] es una ruta dinámica: este archivo genera "/", "/gl" y "/en".
+export function getStaticPaths() {
+  return rutasPorIdioma();
+}
+
+const lang = getIdioma(Astro.params.lang);
+const t = useTranslations(lang);
+---
+<!-- PRUEBA TEMPORAL de tokens y fuentes: se sustituirá al diseñar Inicio -->
+<BaseLayout lang={lang}>
+  <div class="p-8">
+    <p class="text-label uppercase">{t('etiqueta.categoria')}</p>
+    <h1 class="font-serif text-display mt-4">{t('sitio.nombre')}</h1>
+    <p class="text-lead mt-6">{t('sitio.descripcion')}</p>
+  </div>
+</BaseLayout>
